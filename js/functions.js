@@ -1,34 +1,20 @@
-/* eslint-disable prefer-const */
-/* eslint-disable semi */
-function isRequiredLength(string, maxLength) {
-  if (string.length <= maxLength) {
-    return true;
-  }
-
-  return false;
-
-  //return (string.length <= maxLength) ? true : false;
+let isRequiredLength = function (string, maxLength) {
+  return string.length <= maxLength;
 }
 
 isRequiredLength('rdfewds', 3); //false
 isRequiredLength('123456789', 9); // true
 isRequiredLength('rtfgc', 6); // true
 
-function isPalindrom(string) {
-  string = string.replaceAll(' ', '');
-  string = string.toLowerCase();
+let isPalindrom = function (string) {
+  //изменяю входяющую строку string и сохраняю изменения в str
+  let str = string.replaceAll(' ', '');
+  str = str.toLowerCase();
   let invertedLine = '';
-
-  for (let i = string.length - 1; i >= 0; i--) {
-    invertedLine += string[i];
+  for (let i = str.length - 1; i >= 0; i--) {
+    invertedLine += str[i];
   }
-
-  if (invertedLine === string) {
-    return true;
-  }
-  return false;
-
-  /*return invertedLine === string ? true : false;*/
+  return invertedLine === str;
 }
 
 isPalindrom('топот'); //true
@@ -37,12 +23,12 @@ isPalindrom('Кекс'); //false
 isPalindrom('Лёша на полке клопа нашёл'); //true
 isPalindrom('ABcd ef g h 1 2 21 hgfe d cba'); // true
 
-function returnDigit(string) {
-  string = string.toString();
+let returnDigit = function (string) {
+  let str = string.toString();
   let numbers = '';
-  for (let i = 0; i < string.length; i++) {
-    if (!Number.isNaN(parseInt(string[i], 10))) {
-      numbers += string[i];
+  for (let i = 0; i < str.length; i++) {
+    if (!Number.isNaN(parseInt(str[i], 10))) {
+      numbers += str[i];
     }
   }
   return numbers !== '' ? numbers : NaN;
@@ -53,7 +39,7 @@ returnDigit('ee-323rer'); //323
 returnDigit('2023 год'); // 2023
 returnDigit('ECMAScript 2022'); // 2022
 returnDigit('1 кефир, 0.5 батона'); // 105
-returnDigit('агент 007');  // 7
+returnDigit('агент 007');  // 007
 returnDigit('а я томат!!!!!!!!!!!!!!'); // NaN
 returnDigit(2023); // 2023
 returnDigit(-1);   // 1
