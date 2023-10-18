@@ -1,12 +1,12 @@
-let isRequiredLength = function (string, maxLength) {
+const isRequiredLength = function (string, maxLength) {
   return string.length <= maxLength;
-}
+};
 
 isRequiredLength('rdfewds', 3); //false
 isRequiredLength('123456789', 9); // true
 isRequiredLength('rtfgc', 6); // true
 
-let isPalindrom = function (string) {
+const isPalindrom = function (string) {
   //изменяю входяющую строку string и сохраняю изменения в str
   let str = string.replaceAll(' ', '');
   str = str.toLowerCase();
@@ -15,7 +15,7 @@ let isPalindrom = function (string) {
     invertedLine += str[i];
   }
   return invertedLine === str;
-}
+};
 
 isPalindrom('топот'); //true
 isPalindrom('ДовОд'); //true
@@ -23,8 +23,8 @@ isPalindrom('Кекс'); //false
 isPalindrom('Лёша на полке клопа нашёл'); //true
 isPalindrom('ABcd ef g h 1 2 21 hgfe d cba'); // true
 
-let returnDigit = function (string) {
-  let str = string.toString();
+const returnDigit = function (string) {
+  const str = string.toString();
   let numbers = '';
   for (let i = 0; i < str.length; i++) {
     if (!Number.isNaN(parseInt(str[i], 10))) {
@@ -32,7 +32,7 @@ let returnDigit = function (string) {
     }
   }
   return numbers !== '' ? numbers : NaN;
-}
+};
 
 returnDigit('eerer'); // NaN
 returnDigit('ee-323rer'); //323
