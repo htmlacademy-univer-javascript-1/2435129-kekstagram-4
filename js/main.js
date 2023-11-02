@@ -83,7 +83,6 @@ const getUniqNumber = function(min, max) {
         return current;
     };
 };
-const createRandomIdFromRangeGenerator = getUniqNumber();
 
 //функция для создания элемонтов без повторений
 const getRandomElementArray = function(element) {
