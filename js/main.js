@@ -20,7 +20,7 @@ const NAMES = [
     'Есения'
   ];
 
-const DISCRIPTION = [
+const DESCRIPTION = [
     'описание 1',
     'описание 2',
     'описание 3',
@@ -69,7 +69,7 @@ const getRandomNumber = function(min, max) {
     return Math.floor(result);
 };
 
-const getUnicalNumber = function(min, max) {
+const getUniqNumber = function(min, max) {
     const numbers = [];
     return function () {
         let current = getRandomNumber(min, max)
@@ -83,11 +83,11 @@ const getUnicalNumber = function(min, max) {
         return current;
     };
 };
-const createRandomIdFromRangeGenerator = getUnicalNumber();
+const createRandomIdFromRangeGenerator = getUniqNumber();
 
 //функция для создания элемонтов без повторений
 const getRandomElementArray = function(element) {
-    return element[createRandomIdFromRangeGenerator(0, element.length - 1)];
+    return element[getUniqNumber(0, element.length - 1)()];
 };
 
 //функция для создания элементов с повторениями
@@ -102,11 +102,12 @@ const createIdGenerator = function() {
         return id;
     }; 
 };
+const getCommentID = createIdGenerator();
 const getID = createIdGenerator();
 
 const createComment = function() {
     return {
-    id: getID(),       //ID делаю по порядку вызовов, поэтому сделала отдельную функцию createIdGenerator
+    id: createIdGenerator(),       //ID делаю по порядку вызовов, поэтому сделала отдельную функцию createIdGenerator
     avatar: 'img/avatar-' + getRandomNumber(1, 6) + '.svg', //аватарки могут повторяться, поэтому функция getRandomNumber
     message: getRandomRepeatableElementArray(MESSAGES),    //
     name: getRandomRepeatableElementArray(NAMES), //имена могут повторяться, поэтому getRandomRepeatableElementArray
@@ -117,11 +118,11 @@ const createComment = function() {
 const createPhotoDiscription = function() {
     return {
     id: getID(),
-    url: 'photos/' + getUnicalNumber(1, 25) + '.jpg',
-    description: getRandomElementArray(DISCRIPTION),
+    url: 'photos/' + getUniqNumber(1, 25)() + '.jpg',
+    description: getRandomElementArray(DESCRIPTION),
     likes: getRandomNumber(15, 200),
     comments: Array.from({length : getRandomNumber(0,30)}, createComment) //создаю массив комментариев с помощью функции createComment
     };
 };
 
-const discription = Array.from({length : 25}, createPhotoDiscription);
+const description = Array.from({length : 25}, createPhotoDiscription);
