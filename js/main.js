@@ -106,7 +106,7 @@ const getID = createIdGenerator();
 
 const createComment = function() {
     return {
-    id: createIdGenerator(),       //ID делаю по порядку вызовов, поэтому сделала отдельную функцию createIdGenerator
+    id: getCommentID(),       //ID делаю по порядку вызовов, поэтому сделала отдельную функцию createIdGenerator
     avatar: 'img/avatar-' + getRandomNumber(1, 6) + '.svg', //аватарки могут повторяться, поэтому функция getRandomNumber
     message: getRandomRepeatableElementArray(MESSAGES),    //
     name: getRandomRepeatableElementArray(NAMES), //имена могут повторяться, поэтому getRandomRepeatableElementArray
