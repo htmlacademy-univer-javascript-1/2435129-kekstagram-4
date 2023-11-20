@@ -1,5 +1,5 @@
-import {getCommentID, getRandomNumber, getRandomRepeatableElementArray} from 'utils.js';
-import {NAMES, MESSAGES} from 'constants.js';
+import {getCommentID, getRandomNumber, getRandomRepeatableElementArray} from './utils.js';
+import {NAMES, MESSAGES} from './constants.js';
 
 const createComment = function() {
   return {

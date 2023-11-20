@@ -1,9 +1,9 @@
 import {getID,
   getUniqNumber,
   getRandomElementArray,
-  getRandomNumber} from 'utils.js';
-import {DESCRIPTION} from 'constants.js';
-import createComment from 'create_comment.js';
+  getRandomNumber} from './utils.js';
+import {DESCRIPTION} from './constants.js';
+import createComment from './create_comment.js';
 
 const createPhotoDescription = function() {
   return {
