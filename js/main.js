@@ -1,1 +1,1 @@
-import './create_picture.js';
+import './user_modal.js';
