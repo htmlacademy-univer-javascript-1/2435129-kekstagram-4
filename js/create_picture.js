@@ -6,7 +6,7 @@ const newPictureTemplate = pictureTemplate.querySelector('.picture');
 const similarListFragment = document.createDocumentFragment('.pictures');
 const photo = Array.from({ length: 25 }, createPhotoDescription);
 
-const createPicture = function (ulEl,) {
+const createPicture = function (ulEl) {
   photo.forEach(({url, description, likes, comments}) => {
     const pictureElement = newPictureTemplate.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = url;
