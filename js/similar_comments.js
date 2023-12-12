@@ -1,20 +1,23 @@
-import {createComment} from './create_comment.js';
-
-const comment = Array.from({ length: 23 }, createComment);
 const liComment = document.querySelector('.social__comment');
-const commentsListFragment = document.createDocumentFragment();
+const commentList = document.querySelector('.social__comments');
 
-const createCommentPicture = function (comments) {
-  document.querySelector('.social__comments').innerHTML = '';
-  comments.forEach(({avatar, name, message}) => {
-    const commentElement = liComment.cloneNode(true);
-    commentElement.querySelector('.social__picture').src = avatar;
-    commentElement.querySelector('.social__picture').alt = name;
-    commentElement.querySelector('.social__text').textContent = message;
+const createCommentPicture = function ({avatar, name, message}) {
 
-    commentsListFragment.appendChild(commentElement);
-  });
-  document.querySelector('.social__comments').appendChild(commentsListFragment);
+  const commentElement = liComment.cloneNode(true);
+  commentElement.querySelector('.social__picture').src = avatar;
+  commentElement.querySelector('.social__picture').alt = name;
+  commentElement.querySelector('.social__text').textContent = message;
+
+  return commentElement;
 };
 
-export {createCommentPicture};
+const renderComments = function (comments) {
+  const fragment = document.createDocumentFragment();
+  comments.forEach((comment) => {
+    const bigPictureComment = createCommentPicture(comment);
+    fragment.appendChild(bigPictureComment);
+  });
+  commentList.appendChild(fragment);
+};
+
+export {renderComments};
