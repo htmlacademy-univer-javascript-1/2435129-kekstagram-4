@@ -1,1 +1,3 @@
-import './create_picture.js';
+import { renderGallery } from './user_modal.js';
+import {getPictures} from './constants.js';
+renderGallery(getPictures());
