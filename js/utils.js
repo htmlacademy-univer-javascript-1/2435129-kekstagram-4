@@ -39,9 +39,16 @@ const createIdGenerator = function() {
 const getCommentID = createIdGenerator();
 const getID = createIdGenerator();
 
+const isEscapeKey = function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    return true;
+  }
+};
+
 export {getRandomNumber,
   getUniqNumber,
   getRandomElementArray,
   getRandomRepeatableElementArray,
   getCommentID,
-  getID};
+  getID, isEscapeKey};

@@ -1,19 +1,30 @@
-import {createPhotoDescription} from './crete_photo_description.js';
-
 const pictureTemplate = document.querySelector('#picture').content;
 const newPictureTemplate = pictureTemplate.querySelector('.picture');
-const similarListFragment = document.createDocumentFragment('.pictures');
-const photo = createPhotoDescription();
-const photoContainer = document.querySelector('.pictures');
+const similarListFragment = document.querySelector('.pictures');
 
-photo.forEach(({url, description, likes, comments}) => {
-  const pictureElement = newPictureTemplate.cloneNod(true);
-  pictureElement.querySelector('.picture__img').scr = url;
+const createPicture = ({url, description, likes, comments, id}) => {
+  const pictureElement = newPictureTemplate.cloneNode(true);
+
+  pictureElement.querySelector('.picture__img').src = url;
   pictureElement.querySelector('.picture__img').alt = description;
-  pictureElement.querySelector('.picture__comments').textContent = comments;
+  pictureElement.querySelector('.picture__comments').textContent = comments.length;
   pictureElement.querySelector('.picture__likes').textContent = likes;
+  pictureElement.dataset.id = id;
 
-  similarListFragment.appendChild(pictureElement);
-});
+  return pictureElement;
+};
 
-photoContainer.appendChild(similarListFragment);
+const renderPictures = function (pictures, container) {
+  const fragment = document.createDocumentFragment();
+  pictures.forEach((picture) => {
+    const pictureElement = createPicture(picture);
+    fragment.appendChild(pictureElement);
+  });
+  container.appendChild(fragment);
+};
+
+const deleteCreatePicture = function () {
+  similarListFragment.innerHTML = '';
+};
+
+export {createPicture, deleteCreatePicture, renderPictures };
