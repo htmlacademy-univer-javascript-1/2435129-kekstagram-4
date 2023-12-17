@@ -1395,3 +1395,10 @@ main {
 .hidden {
   display: none;
 }
+
+.img-upload__text-error-text {
+  color:#ffe753;
+  font-size: 16px;
+  text-transform: initial;
+  font-weight: 400; 
+}
