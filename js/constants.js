@@ -1,3 +1,15 @@
+import {getCommentID,
+  getUniqNumber,
+  getRandomElementArray,
+  getRandomNumber,
+  getRandomRepeatableElementArray} from './utils.js';
+
+const PICTURE_COUNT = 25;
+const AVATAR_COUNT = 6;
+const LIKE_MIN_COUNT = 15;
+const LIKE_MAX_COUNT = 200;
+const COMMENT_COUNT = 30;
+
 const NAMES = [
   'Кира',
   'Леон',
@@ -62,4 +74,28 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-export {NAMES, DESCRIPTION, MESSAGES};
+const createComment = function() {
+  return {
+    id: getCommentID(),       //ID делаю по порядку вызовов, поэтому сделала отдельную функцию createIdGenerator
+    avatar: `img/avatar-${  getRandomNumber(1, AVATAR_COUNT)  }.svg`, //аватарки могут повторяться, поэтому функция getRandomNumber
+    message: getRandomRepeatableElementArray(MESSAGES),    //
+    name: getRandomRepeatableElementArray(NAMES), //имена могут повторяться, поэтому getRandomRepeatableElementArray
+    /*likes: getRandomNumber(LIKE_MIN_COUNT, LIKE_MAX_COUNT) //лайки тоже могут повторяться */
+  };
+};
+
+const createPhotoDescription = function(index) {
+  return {
+    id: index,
+    url: `photos/${  getUniqNumber(1, PICTURE_COUNT)()  }.jpg`,
+    description: getRandomElementArray(DESCRIPTION),
+    likes: getRandomNumber(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
+    comments: Array.from({length : getRandomNumber(0, COMMENT_COUNT)}, createComment) //создаю массив комментариев с помощью функции createComment
+  };
+};
+
+const getPictures = function () {
+  return Array.from({length: PICTURE_COUNT}, (_, pictureIndex) => createPhotoDescription(pictureIndex + 1));
+};
+
+export {createComment, getPictures};
