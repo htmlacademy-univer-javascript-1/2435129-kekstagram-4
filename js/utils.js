@@ -1,3 +1,5 @@
+const ALERT_SHOW_TIME = 50000;
+
 const getRandomNumber = function(min, max) {
   const lower = Math.ceil(Math.min(max, min));
   const upper = Math.floor(Math.max(min, max));
@@ -46,9 +48,32 @@ const isEscapeKey = function (evt) {
   }
 };
 
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '100';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '0';
+  alertContainer.style.top = '0';
+  alertContainer.style.right = '0';
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+  alertContainer.style.color = 'white';
+  alertContainer.style.height = '50px';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
+
 export {getRandomNumber,
   getUniqNumber,
   getRandomElementArray,
   getRandomRepeatableElementArray,
   getCommentID,
-  getID, isEscapeKey};
+  getID, isEscapeKey, showAlert};
