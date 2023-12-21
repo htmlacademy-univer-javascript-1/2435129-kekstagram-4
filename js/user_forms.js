@@ -1,6 +1,7 @@
 import { isEscapeKey, showAlert} from './utils.js';
 import { resetScale } from './scale.js';
-//import { sendData } from './api.js';
+import { sendData } from './api.js';
+import { addSuccessMessage, addErrorMessage} from './error-success_message.js';
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadButton = imgUploadForm.querySelector('.img-upload__start');
@@ -9,6 +10,7 @@ const bodyElement = document.querySelector('body');
 const textHashTag = imgUploadForm.querySelector('.text__hashtags');
 const textDescription = imgUploadForm.querySelector('.text__description');
 const closeButton = imgUpload.querySelector('.img-upload__cancel');
+const buttonCloseOverlay = imgUploadForm.querySelector('#upload-submit');
 const MAX_SIMBOLS = 140;
 const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
 
@@ -33,15 +35,24 @@ const getHashArray = function (hashtags) {
 };
 
 const validateHashtag = function (value) {
+  if (value.trim() === '') {
+    return true;
+  }
   return getHashArray(value).every((tag) => hashtag.test(tag));
 };
 
 const validateCountHashtag = function (value) {
+  if (value.trim() === '') {
+    return true;
+  }
   const countHash = (getHashArray(value).filter((hash) => hash.length > 0)).length;
   return countHash <=5;
 };
 
 const validateCopyHashtag = function (value) {
+  if (value.trim() === '') {
+    return true;
+  }
   const uppperHash = getHashArray(value).map((tag) => tag.toUpperCase());
   const setHash = new Set(uppperHash);
   return setHash.size === uppperHash.length;
@@ -82,6 +93,7 @@ const onDocumentKeydown = function (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closePhotoRedactor();
+    document.removeEventListener('keydown', onDocumentKeydown);
   }
 };
 
@@ -108,55 +120,36 @@ closeButton.addEventListener('click', () => {
   closePhotoRedactor();
 });
 
-
-const errorMessage = document.querySelector('#error');
-const successMessage = document.querySelector('#success');
-
-const addErrorMessage = function () {
-  document.body.append(errorMessage.cloneNode(true));
+const SubmitBtnText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
 };
 
-
-const closeSuccessMessage = function () {
-  document.querySelector('.success').remove();
+const blockSubmitButton = () => {
+  buttonCloseOverlay.disabled = true;
+  buttonCloseOverlay.textContent = SubmitBtnText.SENDING;
 };
 
-const addSuccessMessage = function () {
-  const message = successMessage.cloneNode(true);
-  document.body.append(message);
-  message.querySelector('.success__button').addEventListener('click', () => {
-    closeSuccessMessage();
-  });
+const unblockSubmitButton = () => {
+  buttonCloseOverlay.disabled = false;
+  buttonCloseOverlay.textContent = SubmitBtnText.IDLE;
 };
-
 
 const setUserSubmitForm = function (onSuccess) {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
+    blockSubmitButton();
     const isValid = pristine.validate();
     if (isValid) {
-      const formData = new FormData(evt.target);
-
-      fetch(
-        'https://29.javascript.pages.academy/kekstagram',
-        {
-          method: 'POST',
-          body: formData,
-        })
-        .then((response) => {
-          if (response.ok) {
-            addSuccessMessage();
-            closePhotoRedactor();
-            onSuccess();
-          } else {
-            addErrorMessage();
-          }
-          //return response.json();
-        })
-        .catch(() => {
-          showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+      sendData(new FormData(evt.target))
+        .then(addSuccessMessage)
+        .then(onSuccess)
+        .then(unblockSubmitButton)
+        .catch((err) => {
+          showAlert(err.message);
         });
+    } else {
+      addErrorMessage();
     }
   });
 };

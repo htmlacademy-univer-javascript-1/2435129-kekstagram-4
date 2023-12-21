@@ -4,6 +4,7 @@ import { setUserSubmitForm, closePhotoRedactor } from './user_forms.js';
 import './filters.js';
 import { showAlert } from './utils.js';
 
+
 getData()
   .then((pictures) => {
     renderGallery(pictures);
@@ -12,5 +13,5 @@ getData()
     showAlert(err.message);
   });
 
-
 setUserSubmitForm(closePhotoRedactor);
+
