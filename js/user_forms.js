@@ -1,5 +1,6 @@
-import { isEscapeKey } from './utils.js';
+import { isEscapeKey, showAlert} from './utils.js';
 import { resetScale } from './scale.js';
+//import { sendData } from './api.js';
 
 const imgUploadForm = document.querySelector('.img-upload__form');
 const imgUploadButton = imgUploadForm.querySelector('.img-upload__start');
@@ -107,11 +108,61 @@ closeButton.addEventListener('click', () => {
   closePhotoRedactor();
 });
 
-imgUploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
+
+const errorMessage = document.querySelector('#error');
+const successMessage = document.querySelector('#success');
+
+const addErrorMessage = function () {
+  document.body.append(errorMessage.cloneNode(true));
+};
+
+
+const closeSuccessMessage = function () {
+  document.querySelector('.success').remove();
+};
+
+const addSuccessMessage = function () {
+  const message = successMessage.cloneNode(true);
+  document.body.append(message);
+  message.querySelector('.success__button').addEventListener('click', () => {
+    closeSuccessMessage();
+  });
+};
+
+
+const setUserSubmitForm = function (onSuccess) {
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+
+      fetch(
+        'https://29.javascript.pages.academy/kekstagram',
+        {
+          method: 'POST',
+          body: formData,
+        })
+        .then((response) => {
+          if (response.ok) {
+            addSuccessMessage();
+            closePhotoRedactor();
+            onSuccess();
+          } else {
+            addErrorMessage();
+          }
+          //return response.json();
+        })
+        .catch(() => {
+          showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+        });
+    }
+  });
+};
 
 textHashTag.addEventListener('keydown', stopClose);
 textDescription.addEventListener('keydown', stopClose);
 imgUploadButton.addEventListener('change', openPhotoRedactor);
+
+export {  closePhotoRedactor, openPhotoRedactor, setUserSubmitForm };
