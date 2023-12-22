@@ -2,7 +2,7 @@ const PICTURES_COUNT = 10;
 const Filter = {
   DEFAULT: 'filter-default',
   RANDOM: 'filter-random',
-  DISCUSSED: 'filter-discusssed',
+  DISCUSSED: 'filter-discussed',
 };
 
 const filtersContainer = document.querySelector('.img-filters');
@@ -11,7 +11,7 @@ let pictures = [];
 
 const sortRandomOrder = () => Math.random() - 0.5;
 
-const sortByComments = (pictA, pictB) => pictB.comment.length - pictA.comment.length;
+const sortByComments = (pictA, pictB) => pictB.comments.length - pictA.comments.length;
 
 const getFilteredPictures = () => {
   switch(currentFilter) {
