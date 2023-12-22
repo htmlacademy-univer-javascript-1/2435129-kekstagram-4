@@ -158,4 +158,4 @@ textHashTag.addEventListener('keydown', stopClose);
 textDescription.addEventListener('keydown', stopClose);
 imgUploadButton.addEventListener('change', openPhotoRedactor);
 
-export {  closePhotoRedactor, openPhotoRedactor, setUserSubmitForm };
+export { closePhotoRedactor, openPhotoRedactor, setUserSubmitForm, unblockSubmitButton };
