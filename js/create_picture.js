@@ -1,6 +1,5 @@
 const pictureTemplate = document.querySelector('#picture').content;
 const newPictureTemplate = pictureTemplate.querySelector('.picture');
-const similarListFragment = document.querySelector('.pictures');
 
 const createPicture = ({url, description, likes, comments, id}) => {
   const pictureElement = newPictureTemplate.cloneNode(true);
@@ -15,6 +14,7 @@ const createPicture = ({url, description, likes, comments, id}) => {
 };
 
 const renderPictures = function (pictures, container) {
+  container.querySelectorAll('.picture').forEach((element) => element.remove());
   const fragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
     const pictureElement = createPicture(picture);
@@ -23,8 +23,4 @@ const renderPictures = function (pictures, container) {
   container.appendChild(fragment);
 };
 
-const deleteCreatePicture = function () {
-  similarListFragment.innerHTML = '';
-};
-
-export {createPicture, deleteCreatePicture, renderPictures };
+export {createPicture, renderPictures };

@@ -1,109 +1,54 @@
-const sliderElement = document.querySelector('.effect-level__slider');
-const valueElement = document.querySelector('.effect-level__value');
-const chromeEffect = document.querySelector('#effect-chrome');
-const sepiaEffect = document.querySelector('#effect-sepia');
-const marvinEffect = document.querySelector('#effect-marvin');
-const phobosEffect = document.querySelector('#effect-phobos');
-const heatEffect = document.querySelector('#effect-heat');
-const noneEffect = document.querySelector('#effect-none');
-const sliderContainer = document.querySelector('.img-upload__effect-level');
-const image = document.querySelector('.img-upload__preview');
-let effect;
-let measurement = '';
+const PICTURES_COUNT = 10;
+const Filter = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discusssed',
+};
 
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 1
-  },
-  start: 0,
-  step: 0.1,
-  connect: 'lower'
-});
+const filtersContainer = document.querySelector('.img-filters');
+let currentFilter = Filter.DEFAULT;
+let pictures = [];
 
-sliderElement.noUiSlider.on('update', () => {
-  valueElement.value = sliderElement.noUiSlider.get();
-  image.style.filter = `${effect}(${valueElement.value}${measurement})`;
-});
+const sortRandomOrder = () => Math.random() - 0.5;
 
-noneEffect.addEventListener('click', (evt) => {
-  if(evt.target.checked) {
-    sliderContainer.classList.add('hidden');
-    image.style.removeProperty('filter');
+const sortByComments = (pictA, pictB) => pictB.comment.length - pictA.comment.length;
+
+const getFilteredPictures = () => {
+  switch(currentFilter) {
+    case Filter.RANDOM:
+      return [...pictures].sort(sortRandomOrder).slice(0, PICTURES_COUNT);
+    case Filter.DISCUSSED:
+      return [...pictures].sort(sortByComments);
+    default:
+      return [...pictures];
   }
-});
+};
 
-chromeEffect.addEventListener ('click', () => {
-  sliderContainer.classList.remove('hidden');
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 1
-    },
-    start: 1,
-    step: 0.1
-  });
-  image.style.filter = 'grayscale(1)';
-  effect = 'grayscale';
-  measurement = '';
-});
+const setOnFilterClick = (cb) => {
+  filtersContainer.addEventListener('click', (evt) => {
+    if (!evt.target.classList.contains('img-filters__button')) {
+      return;
+    }
 
-sepiaEffect.addEventListener ('click', () => {
-  sliderContainer.classList.remove('hidden');
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 1
-    },
-    start: 1,
-    step: 0.1
-  });
-  image.style.filter = 'sepia(1)';
-  effect = 'sepia';
-  measurement = '';
-});
+    const clickedButton = evt.target;
+    if (clickedButton.id === currentFilter) {
+      return;
+    }
 
-marvinEffect.addEventListener ('click', () => {
-  sliderContainer.classList.remove('hidden');
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 100
-    },
-    start: 100,
-    step: 1
-  });
-  image.style.filter = 'invert(100%)';
-  measurement = '%';
-  effect = 'invert';
-});
+    filtersContainer
+      .querySelector('.img-filters__button--active')
+      .classList.remove('img-filters__button--active');
+    clickedButton.classList.add('img-filters__button--active');
+    currentFilter = clickedButton.id;
+    cb(getFilteredPictures());
 
-phobosEffect.addEventListener ('click', () => {
-  sliderContainer.classList.remove('hidden');
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 3
-    },
-    start: 3,
-    step: 0.1
   });
-  image.style.filter = 'blur(3px)';
-  measurement = 'px';
-  effect = 'blur';
-});
+};
 
-heatEffect.addEventListener ('click', () => {
-  sliderContainer.classList.remove('hidden');
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 1,
-      max: 3
-    },
-    start: 3,
-    step: 0.1
-  });
-  image.style.filter = 'brightness(3)';
-  effect = 'brightness';
-  measurement = '';
-});
+const init = (loaderedPictures, cb) => {
+  filtersContainer.classList.remove('img-filters__button--active');
+  pictures = [...loaderedPictures];
+  setOnFilterClick(cb);
+};
+
+export { init, getFilteredPictures };

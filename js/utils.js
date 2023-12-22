@@ -71,9 +71,25 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+const shuffleArray = (array) => {
+  for (let indexOne = array.length - 1; indexOne > 0; indexOne--) {
+    const indexTwo = Math.floor(Math.random() * (indexOne + 1));
+    [array[indexOne], array[indexTwo]] = [array[indexTwo], array[indexOne]];
+  }
+  return array;
+};
+
+const debounce = function (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 export {getRandomNumber,
   getUniqNumber,
   getRandomElementArray,
   getRandomRepeatableElementArray,
   getCommentID,
-  getID, isEscapeKey, showAlert};
+  getID, isEscapeKey, showAlert, shuffleArray, debounce };

@@ -1,11 +1,12 @@
 import {isEscapeKey} from './utils.js';
+import { unblockSubmitButton } from './user_forms.js';
 
 const errorMessage = document.querySelector('#error').content.querySelector('.error');
 const successMessage = document.querySelector('#success').content.querySelector('.success');
 
 const closeErrorMessage = function () {
   const errorContainer = document.querySelector('.error');
-
+  unblockSubmitButton();
   if (errorContainer) {
     errorContainer.remove();
     document.addEventListener('keydown', onDocumentKeydown);
