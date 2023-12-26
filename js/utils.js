@@ -1,4 +1,4 @@
-const ALERT_SHOW_TIME = 50000;
+const ALERT_SHOW_TIME = 5000;
 
 const getRandomNumber = function(min, max) {
   const lower = Math.ceil(Math.min(max, min));
