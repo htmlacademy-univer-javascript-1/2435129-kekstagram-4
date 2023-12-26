@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { isEscapeKey, showAlert} from './utils.js';
 import { resetScale } from './scale.js';
 import { sendData } from './api.js';
