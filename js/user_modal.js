@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import {renderPictures} from './create_picture.js';
 import {isEscapeKey} from './utils.js';
 import {renderComments} from './similar_comments.js';

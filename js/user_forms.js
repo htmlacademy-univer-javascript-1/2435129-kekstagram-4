@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { isEscapeKey, showAlert} from './utils.js';
 import { resetScale } from './scale.js';
 import { sendData } from './api.js';
@@ -98,7 +99,7 @@ const onDocumentKeydown = function (evt) {
 };
 
 const closePhotoRedactor = function () {
-  bodyElement.classList.remove('.modal-open');
+  bodyElement.classList.remove('modal-open');
   imgUpload.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   textHashTag.value = '';
